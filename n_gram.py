@@ -2,14 +2,14 @@ import collections
 import nltk
 import pandas as pd
 
-df = pd.read_csv('apn fa ski.csv')
+df = pd.read_csv('query_apn.csv')
 list_of_keywords = df['query'].tolist()
 list_of_words_in_keywords = [x.split(" ") for x in list_of_keywords]
 counts = collections.Counter()
 for phrase in list_of_words_in_keywords:
-  #counts.update(nltk.ngrams(phrase, 1))
+  counts.update(nltk.ngrams(phrase, 1))
   counts.update(nltk.ngrams(phrase, 2))
-  #counts.update(nltk.ngrams(phrase, 3))
+  counts.update(nltk.ngrams(phrase, 3))
 
 
 top =counts.most_common(50)
@@ -38,5 +38,5 @@ def RemoveUselessChar(x):
 x['query'] = x['query'].apply(RemoveUselessChar)
 x['query'] = x['query'].str.replace(',',' ')
 x['Volume'] = x['query'].apply(GetVolume)
-
+#error? check csv coulmn name. default:- query, impressions (no problem if it has other column)
 print(x)
